@@ -150,29 +150,6 @@ $jumlah_siswa = count($data_rekap);
             font-weight: bold;
             color: #0d6efd;
         }
-
-        @media print {
-            .no-print,
-            .dt-search,
-            .dt-length,
-            .dt-paging,
-            .dt-info {
-                display: none !important;
-            }
-
-            main {
-                width: 100% !important;
-            }
-
-            .card {
-                border: 1px solid #ccc !important;
-                box-shadow: none !important;
-            }
-
-            body {
-                font-size: 12px;
-            }
-        }
     </style>
 </head>
 
@@ -202,11 +179,6 @@ $jumlah_siswa = count($data_rekap);
                             Kembali ke Dashboard
                         </a>
 
-                        <button type="button"
-                                onclick="window.print()"
-                                class="btn btn-success">
-                            Cetak Rekap
-                        </button>
                     </div>
                 </div>
 

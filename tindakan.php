@@ -2,6 +2,12 @@
 // tindakan.php
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
+include_once 'includes/helper.php';
+
+// Tindakan hanya dilakukan guru penindak, dan hanya pada pelanggaran yang ia catat sendiri
+// (konsisten dengan Riwayat yang hanya bisa dilihat oleh penindak).
+cek_role(['guru']);
+$guru_id = guru_id_login($koneksi);
 
 // Proses menyimpan tindakan
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql_update = "UPDATE t_pelanggaran_siswa
                    SET tindakan = '$tindakan',
                        $set_status
-                   WHERE id = $id";
+                   WHERE id = $id AND guru_id = $guru_id";
 
     if (mysqli_query($koneksi, $sql_update)) {
         $_SESSION['pesan_sukses'] = $selesai
@@ -47,6 +53,7 @@ $sql = "SELECT id, nama_siswa, nama_kelas,
                keterangan, tindakan
         FROM t_pelanggaran_siswa
         WHERE LOWER(TRIM(status)) NOT IN ('dihapus', 'selesai')
+          AND guru_id = $guru_id
         ORDER BY tanggal DESC";
 
 $hasil = mysqli_query($koneksi, $sql);
